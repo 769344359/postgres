@@ -43,3 +43,4 @@ exec_simple_query(const char *query_string)
 
 
 ```
+主要的语法解析在函数`raw_parser`中

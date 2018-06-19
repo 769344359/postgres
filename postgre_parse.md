@@ -86,3 +86,4 @@ test=# select oid,relowner,reltype from pg_class where relname='nothing';
 ---
 
 `relation_openrv_extended`
+`RelnameGetRelid(const char *relname)`

@@ -66,3 +66,12 @@ exec_simple_query(const char *query_string)
 #14 0x00000000007d6be6 in PostmasterMain (argc=3, argv=0x1f779e0) at postmaster.c:1379
 #15 0x000000000070938e in main (argc=3, argv=0x1f779e0) at main.c:228
 ```
+
+
+mark 
+```
+{type = T_RangeTblEntry, rtekind = RTE_RELATION, relid = 16385, relkind = 114 'r', tablesample = 0x0, subquery = 0x0, security_barrier = false, jointype = JOIN_INNER, joinaliasvars = 0x0, functions = 0x0, funcordinality = false, tablefunc = 0x0,
+  values_lists = 0x0, ctename = 0x0, ctelevelsup = 0, self_reference = false, coltypes = 0x0, coltypmods = 0x0, colcollations = 0x0, enrname = 0x0, enrtuples = 0, alias = 0x0, eref = 0x1f7dfb0, lateral = false, inh = true,
+inFromCl = true, requiredPerms = 2,
+  checkAsUser = 0, selectedCols = 0x0, insertedCols = 0x0, updatedCols = 0x0, securityQuals = 0x0}
+```

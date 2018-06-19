@@ -75,3 +75,10 @@ mark
 inFromCl = true, requiredPerms = 2,
   checkAsUser = 0, selectedCols = 0x0, insertedCols = 0x0, updatedCols = 0x0, securityQuals = 0x0}
 ```
+
+```
+test=# select oid,relowner,reltype from pg_class where relname='nothing';
+  oid  | relowner | reltype
+-------+----------+---------
+ 16385 |       10 |   16387
+```

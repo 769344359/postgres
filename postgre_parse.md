@@ -82,3 +82,7 @@ test=# select oid,relowner,reltype from pg_class where relname='nothing';
 -------+----------+---------
  16385 |       10 |   16387
 ```
+
+---
+
+`relation_openrv_extended`

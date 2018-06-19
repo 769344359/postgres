@@ -44,3 +44,25 @@ exec_simple_query(const char *query_string)
 
 ```
 主要的语法解析在函数`raw_parser`中
+
+编译表名
+
+```
+(gdb) bt
+#0  transformTableEntry (pstate=0x1f7dc80, r=0x1f7d8a8) at parse_clause.c:435
+#1  0x00000000005c0432 in transformFromClauseItem (pstate=0x1f7dc80, n=0x1f7d8a8, top_rte=0x7ffefe615b00, top_rti=0x7ffefe615afc, namespace=0x7ffefe615b08) at parse_clause.c:1121
+#2  0x00000000005be59a in transformFromClause (pstate=0x1f7dc80, frmList=0x1f7d918) at parse_clause.c:139
+#3  0x0000000000585c1e in transformSelectStmt (pstate=0x1f7dc80, stmt=0x1f7daf0) at analyze.c:1212
+#4  0x000000000058430b in transformStmt (pstate=0x1f7dc80, parseTree=0x1f7daf0) at analyze.c:301
+#5  0x00000000005841e3 in transformOptionalSelectInto (pstate=0x1f7dc80, parseTree=0x1f7daf0) at analyze.c:246
+#6  0x00000000005840de in transformTopLevelStmt (pstate=0x1f7dc80, parseTree=0x1f7dc00) at analyze.c:196
+#7  0x0000000000583f56 in parse_analyze (parseTree=0x1f7dc00, sourceText=0x1f7cd70 "select * from nothing where key=1;", paramTypes=0x0, numParams=0, queryEnv=0x0) at analyze.c:116
+#8  0x000000000086babf in pg_analyze_and_rewrite (parsetree=0x1f7dc00, query_string=0x1f7cd70 "select * from nothing where key=1;", paramTypes=0x0, numParams=0, queryEnv=0x0) at postgres.c:666
+#9  0x000000000086c106 in exec_simple_query (query_string=0x1f7cd70 "select * from nothing where key=1;") at postgres.c:1047
+#10 0x000000000087062f in PostgresMain (argc=1, argv=0x1fa65a8, dbname=0x1fa6490 "test", username=0x1fa6478 "vagrant") at postgres.c:4153
+#11 0x00000000007db551 in BackendRun (port=0x1f9e470) at postmaster.c:4361
+#12 0x00000000007dac72 in BackendStartup (port=0x1f9e470) at postmaster.c:4033
+#13 0x00000000007d737e in ServerLoop () at postmaster.c:1706
+#14 0x00000000007d6be6 in PostmasterMain (argc=3, argv=0x1f779e0) at postmaster.c:1379
+#15 0x000000000070938e in main (argc=3, argv=0x1f779e0) at main.c:228
+```

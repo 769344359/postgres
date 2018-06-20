@@ -114,7 +114,7 @@ test=# select oid,relowner,reltype from pg_class where relname='nothing';
 ```
 
 > 通过表名获得oid
-```
+```c
 (gdb) bt
 #0  GetSysCacheOid (cacheId=49, key1=33020048, key2=11, key3=0, key4=0) at syscache.c:1230
 #1  0x00000000009bb0ca in get_relname_relid (relname=0x1f7d890 "nothing", relnamespace=11) at lsyscache.c:1689

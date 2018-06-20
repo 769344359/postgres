@@ -142,3 +142,37 @@ test=# select oid,relowner,reltype from pg_class where relname='nothing';
 #22 0x00000000007d6be6 in PostmasterMain (argc=3, argv=0x1f779e0) at postmaster.c:1379
 #23 0x000000000070938e in main (argc=3, argv=0x1f779e0) at main.c:228
 ```
+-------------------------------------------------------------------------------------------------------------------
+```
+(gdb) bt
+#0  GetSysCacheOid (cacheId=49, key1=33020048, key2=2200, key3=0, key4=0) at syscache.c:1231
+#1  0x00000000009bb0ca in get_relname_relid (relname=0x1f7d890 "nothing", relnamespace=2200) at lsyscache.c:1689
+#2  0x000000000055163d in RelnameGetRelid (relname=0x1f7d890 "nothing") at namespace.c:684
+#3  0x0000000000550d63 in RangeVarGetRelidExtended (relation=0x1f7d8a8, lockmode=1, flags=1, callback=0x0, callback_arg=0x0) at namespace.c:325
+#4  0x00000000004c3dc6 in relation_openrv_extended (relation=0x1f7d8a8, lockmode=1, missing_ok=true) at heapam.c:1250
+#5  0x00000000004c406b in heap_openrv_extended (relation=0x1f7d8a8, lockmode=1, missing_ok=true) at heapam.c:1358
+#6  0x00000000005db24e in parserOpenTable (pstate=0x1f7dc80, relation=0x1f7d8a8, lockmode=1) at parse_relation.c:1152
+#7  0x00000000005db4a2 in addRangeTableEntry (pstate=0x1f7dc80, relation=0x1f7d8a8, alias=0x0, inh=true, inFromCl=true) at parse_relation.c:1217
+#8  0x00000000005bec23 in transformTableEntry (pstate=0x1f7dc80, r=0x1f7d8a8) at parse_clause.c:435
+#9  0x00000000005c0432 in transformFromClauseItem (pstate=0x1f7dc80, n=0x1f7d8a8, top_rte=0x7ffefe615b00, top_rti=0x7ffefe615afc, namespace=0x7ffefe615b08) at parse_clause.c:1121
+#10 0x00000000005be59a in transformFromClause (pstate=0x1f7dc80, frmList=0x1f7d918) at parse_clause.c:139
+#11 0x0000000000585c1e in transformSelectStmt (pstate=0x1f7dc80, stmt=0x1f7daf0) at analyze.c:1212
+---Type <return> to continue, or q <return> to quit---
+#12 0x000000000058430b in transformStmt (pstate=0x1f7dc80, parseTree=0x1f7daf0) at analyze.c:301
+#13 0x00000000005841e3 in transformOptionalSelectInto (pstate=0x1f7dc80, parseTree=0x1f7daf0) at analyze.c:246
+#14 0x00000000005840de in transformTopLevelStmt (pstate=0x1f7dc80, parseTree=0x1f7dc00) at analyze.c:196
+#15 0x0000000000583f56 in parse_analyze (parseTree=0x1f7dc00, sourceText=0x1f7cd70 "select * from nothing where key =1;", paramTypes=0x0, numParams=0, queryEnv=0x0) at analyze.c:116
+#16 0x000000000086babf in pg_analyze_and_rewrite (parsetree=0x1f7dc00, query_string=0x1f7cd70 "select * from nothing where key =1;", paramTypes=0x0, numParams=0, queryEnv=0x0) at postgres.c:666
+#17 0x000000000086c106 in exec_simple_query (query_string=0x1f7cd70 "select * from nothing where key =1;") at postgres.c:1047
+#18 0x000000000087062f in PostgresMain (argc=1, argv=0x1fa65a8, dbname=0x1fa6490 "test", username=0x1fa6478 "vagrant") at postgres.c:4153
+#19 0x00000000007db551 in BackendRun (port=0x1f9e470) at postmaster.c:4361
+#20 0x00000000007dac72 in BackendStartup (port=0x1f9e470) at postmaster.c:4033
+#21 0x00000000007d737e in ServerLoop () at postmaster.c:1706
+#22 0x00000000007d6be6 in PostmasterMain (argc=3, argv=0x1f779e0) at postmaster.c:1379
+#23 0x000000000070938e in main (argc=3, argv=0x1f779e0) at main.c:228
+```
+然后在这里处理tuple 可以获得oid
+```c
+(gdb) p  *(Oid *)((char *)tuple->t_data + tuple->t_data.t_hoff -sizeof(Oid ))
+$29 = 16385
+```
